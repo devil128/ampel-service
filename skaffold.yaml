@@ -1,0 +1,16 @@
+apiVersion: skaffold/v2beta14
+kind: Config
+metadata:
+  name: analyser-service
+build:
+  artifacts:
+    - image: registry.projectdw.de/
+      context: .
+      jib:
+        project: de.projectdw:ampel-service
+        args: [ -DskipTests ]
+        type: maven
+deploy:
+  kubectl:
+    manifests:
+      - deployment/service-deployment.yaml
