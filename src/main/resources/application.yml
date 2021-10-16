@@ -1,0 +1,8 @@
+
+spring:
+  data:
+    mongodb:
+      database: "ampel"
+      uri: "mongodb://admin:admin@localhost:27017"
+
+

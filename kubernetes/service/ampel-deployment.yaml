@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ampel-service
+  labels:
+    app: ampel-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: ampel-service
+      labels:
+        app: ampel-service
+    spec:
+      containers:
+        - name: ampel-service
+          image: registry.projectdw.de/ampel-service
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: ampel-service

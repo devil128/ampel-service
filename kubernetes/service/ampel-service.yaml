@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ampel-service
+spec:
+  selector:
+    app: ampel-service
+  ports:
+    - port: 8080
+  type: NodePort
