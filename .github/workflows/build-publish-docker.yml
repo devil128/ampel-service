@@ -57,9 +57,9 @@ jobs:
         
       - name: Deploy to kubernetes
         run: |
-          kubectl apply kubernetes/service/ampel-deployment.yaml
-          kubectl apply kubernetes/service/ampel-ingress.yaml
-          kubectl apply kubernetes/service/ampel-service.yaml
+          kubectl apply -f kubernetes/service/ampel-deployment.yaml
+          kubectl apply -f kubernetes/service/ampel-ingress.yaml
+          kubectl apply -f kubernetes/service/ampel-service.yaml
           
         
         
