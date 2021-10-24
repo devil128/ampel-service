@@ -42,7 +42,7 @@ jobs:
 
       - name: Publish to Private Archiva
         run: |
-          ls -lisa
+          cd $GITHUB_WORKSPACE
           mvn deploy	-DskipTests
       
       - name: JIB Build
