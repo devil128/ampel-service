@@ -42,7 +42,7 @@ jobs:
     
 
       - name: Publish to Private Archiva
-        run: mvn deploy	
+        run: mvn deploy	-DskipTests
       
       - name: JIB Build
         run: mvn jib:build
