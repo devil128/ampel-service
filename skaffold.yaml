@@ -1,10 +1,10 @@
 apiVersion: skaffold/v2beta14
 kind: Config
 metadata:
-  name: analyser-service
+  name: ampel-service
 build:
   artifacts:
-    - image: registry.projectdw.de/
+    - image: registry.projectdw.de/ampel-service
       context: .
       jib:
         project: de.projectdw:ampel-service
@@ -13,4 +13,6 @@ build:
 deploy:
   kubectl:
     manifests:
-      - deployment/service-deployment.yaml
+      - kubernetes/service/ampel-deployment.yaml
+      - kubernetes/service/ampel-service.yaml
+

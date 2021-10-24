@@ -3,6 +3,6 @@ spring:
   data:
     mongodb:
       database: "ampel"
-      uri: "mongodb://admin:admin@localhost:27017"
+      uri: "mongodb://admin:admin@mongodb-ampel-service.default.svc.cluster.local:27017"
 
 

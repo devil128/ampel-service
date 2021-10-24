@@ -4,7 +4,7 @@ metadata:
   name: ampel-service
 spec:
   selector:
-    app: ampel-service
+    app: ampel-endpoint
   ports:
     - port: 8080
   type: NodePort

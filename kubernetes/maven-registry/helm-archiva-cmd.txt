@@ -1,0 +1,1 @@
+helm install --set persistence.requestSize=10Gi  archiva xetusoss/xetusoss-archiva
