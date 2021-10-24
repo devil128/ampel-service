@@ -38,7 +38,7 @@ jobs:
         uses: whelk-io/maven-settings-xml-action@v4
         with:
           repositories: '[{ "id": "vsys", "url": "https://artifactory.projectdw.de/repository/vsys/" }]'
-          servers: '[{ "id": "vsys", "username": ${{ secrets.ARCHIVA_USERNAME }}, "password": ${{ secrets.ARCHIVA_PASSWORD }} }]'
+          servers: '[{ "id": "vsys", "username": "${{ secrets.ARCHIVA_USERNAME }}", "password": "${{ secrets.ARCHIVA_PASSWORD }}" }]'
     
 
       - name: Publish to Private Archiva
