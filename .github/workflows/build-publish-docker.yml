@@ -50,7 +50,7 @@ jobs:
         run: mvn jib:build
       
       - name: Kubernetes Set Context
-        uses: Azure/8s-set-context@v1.1
+        uses: Azure/k8s-set-context@v1.1
         with:
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
         
