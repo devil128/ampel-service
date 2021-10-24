@@ -41,9 +41,9 @@ jobs:
           repositories: '[{ "id": "vsys", "url": "https://artifactory.projectdw.de/repository/vsys/" }]'
           servers: '[{ "id": "vsys", "username": "${{ secrets.ARCHIVA_USERNAME }}", "password": "${{ secrets.ARCHIVA_PASSWORD }}" }]'
     
-
       - name: Publish to Private Archiva
-        
+        run: mvn install -DskipTests
+      - name: Publish to Private Archiva
         run: mvn deploy	-DskipTests
       
       - name: JIB Build
