@@ -22,7 +22,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    
       - name: Set up JDK 16 for deploy to github packages
         uses: actions/setup-java@v2
         with:
@@ -42,7 +41,9 @@ jobs:
     
 
       - name: Publish to Private Archiva
-        run: mvn deploy	-DskipTests
+        run: |
+          ls -lisa
+          mvn deploy	-DskipTests
       
       - name: JIB Build
         run: mvn jib:build
