@@ -54,6 +54,7 @@ jobs:
         with:
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
         
+        
       - name: Deploy to kubernetes
         run: |
           kubectl apply kubernetes/service/ampel-deployment.yaml
