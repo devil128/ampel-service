@@ -13,6 +13,12 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>ampel-service</name>
     <description>Demo project for Spring Boot</description>
+    <distributionManagement>
+        <repository>
+            <id>vsys</id>
+            <url>https://artifactory.projectdw.de/repository/vsys/</url>
+        </repository>
+    </distributionManagement>
     <properties>
         <java.version>11</java.version>
     </properties>
@@ -47,6 +53,7 @@
 
     <build>
         <plugins>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
