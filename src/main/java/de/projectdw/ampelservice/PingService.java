@@ -29,6 +29,7 @@ public class PingService {
     public String clear(){
         userLogsRepository.deleteAll(userLogsRepository.findAll());
         return "Worked";
+
     }
 
 
