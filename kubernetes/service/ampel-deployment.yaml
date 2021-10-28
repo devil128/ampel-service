@@ -15,7 +15,7 @@ spec:
       containers:
         - name: ampel-service
           image: registry.projectdw.de/ampel-service
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
       restartPolicy: Always
       imagePullSecrets:
         - name: regcred
