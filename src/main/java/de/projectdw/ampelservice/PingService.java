@@ -2,6 +2,7 @@ package de.projectdw.ampelservice;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +15,7 @@ public class PingService {
     UserLogsRepository userLogsRepository;
 
     @GetMapping("/ping")
-    public String getPing(String name) {
+    public String getPing(@Value("Test") String name) {
         UserLog log = new UserLog();
         log.setSuccess(true);
         log.setTimestamp(new Date().toInstant().toEpochMilli() + "");
