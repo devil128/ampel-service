@@ -1,0 +1,42 @@
+type Query {
+    users(filter: String, from: String, to: String):[Student]
+}
+
+type Subscription {
+    users(filter: String, from: String, to: String): [Student]
+}
+
+
+type Log{
+    ts: Int
+    success: Boolean
+}
+type StudentLog{
+    timestamp: String
+    success: Boolean
+    networks: [StudentNetwork]
+}
+type StudentNetwork{
+    network: String
+    online: Boolean
+}
+type Student{
+    username: String
+    place: String
+    logs: [StudentLog]
+    isFailed: Boolean
+    isComplete: Boolean
+    maxTimeBetweenLogs: Float
+}
+
+input LogData{
+    success: Boolean
+    name: String
+    place: String
+    timestamp: String
+    networkInterfaces: [NetworkPair]
+}
+input NetworkPair{
+    network: String
+    online: Boolean
+}

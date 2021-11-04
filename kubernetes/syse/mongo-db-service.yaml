@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-ampel-service
+spec:
+  type: ClusterIP
+  selector:
+    app: mongodb-ampel
+  ports:
+    - port: 27017
+      targetPort: 27017

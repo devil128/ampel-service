@@ -1,8 +1,8 @@
-
 spring:
   data:
     mongodb:
       database: "ampel"
       uri: "mongodb://admin:admin@mongodb-ampel-service.default.svc.cluster.local:27017"
-
-
+logging:
+  file:
+    name: logs.log

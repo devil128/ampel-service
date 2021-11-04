@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mongodb-ampel
+  name: mongodb-syse
 
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: mongodb-ampel
+        app: mongodb-syse
         track: stable
     spec:
       containers:
@@ -18,7 +18,7 @@ spec:
             - containerPort: 27017
           volumeMounts:
             - mountPath: /data/db
-              name: mongodb-ampel
+              name: mongodb-syse
 
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
@@ -28,7 +28,7 @@ spec:
 
   volumeClaimTemplates:
     - metadata:
-        name: mongodb-ampel
+        name: mongodb-syse
       spec:
         accessModes: [ "ReadWriteOnce" ]
         storageClassName: longhorn
@@ -38,6 +38,6 @@ spec:
 
   selector:
     matchLabels:
-      app: mongodb-ampel
-  serviceName: mongodb-ampel
+      app: mongodb-syse
+  serviceName: mongodb-syse
 
