@@ -25,7 +25,7 @@ public class StudentLog {
     private String id;
     String timestamp;
     boolean success;
-    @DBRef
+    @DBRef(lazy = true)
     List<StudentNetwork> networks = new ArrayList<>();
 
 

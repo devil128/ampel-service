@@ -20,10 +20,12 @@ public class Student {
     private String id;
     String username;
     String place;
-    @DBRef
+    @DBRef(lazy = true)
     List<StudentLog> logs = new ArrayList<>();
     boolean isFailed;
     boolean isComplete;
     double maxTimeBetweenLogs;
-
+    double timeOnline;
+    int logCount;
+    List<String> activeNetworks;
 }

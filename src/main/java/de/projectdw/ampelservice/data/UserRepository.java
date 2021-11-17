@@ -6,4 +6,5 @@ public interface UserRepository extends MongoRepository<Student, String> {
     // only retrives first field = place and username are expected to be unique
     Student findFirstByUsernameAndPlace(String username, String place);
 
+
 }

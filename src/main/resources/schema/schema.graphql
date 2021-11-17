@@ -1,10 +1,12 @@
 type Query {
     users(filter: String, from: String, to: String):[Student]
+    user(filter: String, from: String, to: String):Student
 }
 
 type Subscription {
     users(filter: String, from: String, to: String): [Student]
 }
+
 
 
 type Log{
@@ -25,8 +27,11 @@ type Student{
     place: String
     logs: [StudentLog]
     isFailed: Boolean
-    isComplete: Boolean
-    maxTimeBetweenLogs: Float
+    isComplete: Boolean,
+    timeOnline: Float,
+    maxTimeBetweenLogs: Float,
+    logCount: Int,
+    activeNetworks: [String]
 }
 
 input LogData{
