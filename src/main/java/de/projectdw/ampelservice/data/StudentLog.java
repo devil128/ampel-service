@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -23,10 +24,13 @@ import java.util.List;
 public class StudentLog {
     @Id
     private String id;
+    @Indexed
     long timestamp;
     boolean success;
     @DBRef(lazy = true)
     List<StudentNetwork> networks = new ArrayList<>();
     @DBRef(lazy = true)
+    @Indexed
     Student student;
+
 }
