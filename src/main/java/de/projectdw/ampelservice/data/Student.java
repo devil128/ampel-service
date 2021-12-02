@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,12 +21,18 @@ public class Student {
     private String id;
     String username;
     String place;
-    @DBRef(lazy = true)
-    List<StudentLog> logs = new ArrayList<>();
+    @Transient
     boolean isFailed;
+    @Transient
     boolean isComplete;
+    @Transient
     double maxTimeBetweenLogs;
+    @Transient
     double timeOnline;
+    @Transient
     int logCount;
+    @Transient
+    List<StudentLog> logs;
     List<String> activeNetworks;
+
 }

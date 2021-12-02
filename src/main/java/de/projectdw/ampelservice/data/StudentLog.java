@@ -23,10 +23,10 @@ import java.util.List;
 public class StudentLog {
     @Id
     private String id;
-    String timestamp;
+    long timestamp;
     boolean success;
     @DBRef(lazy = true)
     List<StudentNetwork> networks = new ArrayList<>();
-
-
+    @DBRef(lazy = true)
+    Student student;
 }

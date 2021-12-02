@@ -1,6 +1,8 @@
 type Query {
     users(filter: String, from: String, to: String):[Student]
-    user(filter: String, from: String, to: String):Student
+    user(username: String, place: String, from: String, to: String):Student
+    logs(username: String, place: String, from: String, to: String, page: Int, pageSize: Int): [StudentLog]
+
 }
 
 type Subscription {
@@ -17,6 +19,7 @@ type StudentLog{
     timestamp: String
     success: Boolean
     networks: [StudentNetwork]
+    student: Student
 }
 type StudentNetwork{
     network: String
@@ -25,12 +28,12 @@ type StudentNetwork{
 type Student{
     username: String
     place: String
-    logs: [StudentLog]
     isFailed: Boolean
     isComplete: Boolean,
     timeOnline: Float,
     maxTimeBetweenLogs: Float,
     logCount: Int,
+    logs: [StudentLog],
     activeNetworks: [String]
 }
 

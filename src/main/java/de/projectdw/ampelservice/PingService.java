@@ -20,6 +20,7 @@ public class PingService {
     UserRepository userRepository;
     @Autowired
     StudentNetworkRepository studentNetworkRepository;
+
     @PostMapping("/ping")
     public String getPing(@RequestBody InputLogData data) {
         log.info("Name: {} and place connected: {}", data.getName(), data.getPlace());
@@ -27,21 +28,21 @@ public class PingService {
         var place = data.getPlace();
         StudentLog userlog = new StudentLog();
         userlog.setSuccess(true);
-        userlog.setTimestamp(new Date().toInstant().toEpochMilli() + "");
+        userlog.setTimestamp(new Date().toInstant().toEpochMilli());
         if (data.getNetworkInterfaces() != null) {
             for (var network : data.getNetworkInterfaces()) {
                 var studentNetwork = new StudentNetwork(network);
                 studentNetworkRepository.save(studentNetwork);
                 userlog.getNetworks().add(studentNetwork);
-
             }
         }
         Student student = getUser(name, place);
         log.info(String.valueOf(userlog));
 
+        userlog.setStudent(student);
         var log = userLogsRepository.save(userlog);
-        student.getLogs().add(log);
-        userRepository.save(student);
+
+
         return "failed";
     }
 
@@ -83,17 +84,16 @@ public class PingService {
         for (var log : inputLogData) {
             StudentLog studentLog = new StudentLog();
             studentLog.setSuccess(false);
-            studentLog.setTimestamp(log.getTimestamp());
-            for (var network : log.getNetworkInterfaces()){
+            studentLog.setTimestamp(Long.parseLong(log.getTimestamp()));
+            for (var network : log.getNetworkInterfaces()) {
                 var studentNetwork = new StudentNetwork(network);
                 studentNetworkRepository.save(studentNetwork);
                 studentLog.getNetworks().add(studentNetwork);
             }
+            studentLog.setStudent(user);
             userLogsRepository.save(studentLog);
-            user.getLogs().add(studentLog);
+
         }
-        user.getLogs().sort(Comparator.comparing(studentLog -> Long.parseLong(studentLog.getTimestamp())));
-        userRepository.save(user);
 
         return true;
     }

@@ -1,11 +1,8 @@
 package de.projectdw.ampelservice;
 
 import com.netflix.graphql.dgs.*;
-import de.projectdw.ampelservice.data.Student;
-import de.projectdw.ampelservice.data.StudentLog;
-import de.projectdw.ampelservice.data.StudentNetwork;
-import de.projectdw.ampelservice.data.UserRepository;
-import de.projectdw.ampelservice.input.NetworkPair;
+import de.projectdw.ampelservice.data.*;
+import graphql.execution.DataFetcherResult;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import reactor.core.publisher.Flux;
@@ -17,13 +14,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @DgsComponent
-public class UserLogDatafetcher {
+public class UserDatafetcher {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserLogsRepository userLogsRepository;
+
 
     @DgsQuery(field = "users")
-
-    public List<Student> getUsers(@InputArgument String filter, @InputArgument String from, @InputArgument String to) {
+    public DataFetcherResult<List<Student>> getUsers(@InputArgument String filter, @InputArgument String from, @InputArgument String to) {
         var users = userRepository.findAll();
         if (filter != null) {
             users = users.stream().filter(str -> str.getUsername().startsWith(filter)).collect(Collectors.toList());
@@ -33,13 +32,14 @@ public class UserLogDatafetcher {
             result.add(generateData(elm, from, to));
         });
 
-        return result;
+        return DataFetcherResult.<List<Student>>newResult().data(result).localContext(Arrays.asList(from, to)).build();
     }
 
     @DgsQuery(field = "user")
-    public Student getStudentData(@InputArgument String username, @InputArgument String place, @InputArgument String from, @InputArgument String to) {
+    public DataFetcherResult<Student> getStudentData(@InputArgument String username, @InputArgument String place, @InputArgument String from, @InputArgument String to) {
         Student student = userRepository.findFirstByUsernameAndPlace(username, place);
-        return generateData(student, from, to);
+        var data = generateData(student, from, to);
+        return DataFetcherResult.<Student>newResult().data(data).localContext(Arrays.asList(from, to)).build();
     }
 
     private Student generateData(Student user, String from, String to) {
@@ -87,8 +87,8 @@ public class UserLogDatafetcher {
         for (int i = 0; i < logsInTimeframe.size() - 1; i++) {
             var firstElement = logsInTimeframe.get(i);
             var secondElement = logsInTimeframe.get(i + 1);
-            long firstTs = Long.parseLong(firstElement.getTimestamp());
-            long secondTs = Long.parseLong(secondElement.getTimestamp());
+            long firstTs = firstElement.getTimestamp();
+            long secondTs = secondElement.getTimestamp();
             if (secondTs - firstTs < maxTimeInBetween)
                 maxTimeInBetween = secondTs - firstTs;
         }
@@ -96,22 +96,22 @@ public class UserLogDatafetcher {
         return maxTimeInBetween;
     }
 
+
     public boolean isFailed(Student student, String tsFrom, String tsTo) {
 
         long from = Long.parseLong(tsFrom);
         long to = Long.parseLong(tsTo);
-        return student.getLogs().stream()
-                .filter(log -> log.getTimestamp() != null)
-                .filter(log -> Long.parseLong(log.getTimestamp()) > from)
-                .filter(log -> Long.parseLong(log.getTimestamp()) < to)
+        return userLogsRepository.findAllByTimestampBetweenAndStudent_Id(Long.parseLong(tsFrom), Long.parseLong(tsTo), student.getId()).stream()
+                .filter(log -> log.getTimestamp() > from)
+                .filter(log -> log.getTimestamp() < to)
                 .anyMatch(StudentLog::isSuccess);
     }
 
     @DgsSubscription(field = "users")
-    public Publisher<List<Student>> streamUsers(@InputArgument String filter,
-                                                @InputArgument String from,
-                                                @InputArgument String to,
-                                                DgsDataFetchingEnvironment dfe) {
+    public Publisher<DataFetcherResult<List<Student>>> streamUsers(@InputArgument String filter,
+                                                                   @InputArgument String from,
+                                                                   @InputArgument String to,
+                                                                   DgsDataFetchingEnvironment dfe) {
         if (from == null)
             from = Instant.ofEpochSecond(10).toEpochMilli() + "";
         if (to == null)
@@ -121,16 +121,23 @@ public class UserLogDatafetcher {
         return Flux.interval(Duration.ofSeconds(5)).map(ts -> getUsers(filter, finalFrom, finalTo));
     }
 
+    @DgsData(parentType = "Student", field = "logs")
+    public List<StudentLog> logs(DgsDataFetchingEnvironment dgsDataFetchingEnvironment) {
+        Student student = dgsDataFetchingEnvironment.getSource();
+        List<String> timestamps = dgsDataFetchingEnvironment.getLocalContext();
+        long from = Long.parseLong(timestamps.get(0));
+        long to = Long.parseLong(timestamps.get(1));
+        return userLogsRepository.findAllByTimestampBetweenAndStudent_Id(from, to, student.getId());
+    }
+
     private List<StudentLog> getLogsInTimeframe(Student student, String tsFrom, String tsTo) {
         long from = Long.parseLong(tsFrom);
         long to = Long.parseLong(tsTo);
-        var logsInTimeframe = student.getLogs().stream()
-                .filter(log -> log.getTimestamp() != null)
-                .filter(log -> Long.parseLong(log.getTimestamp()) > from)
-                .filter(log -> Long.parseLong(log.getTimestamp()) < to)
-                .sorted(Comparator.comparing(studentLog -> Long.parseLong(studentLog.getTimestamp())))
+        var logsInTimeframe = userLogsRepository.findAllByTimestampBetweenAndStudent_Id(Long.parseLong(tsFrom), Long.parseLong(tsTo), student.getId()).stream()
+                .filter(log -> log.getTimestamp() > from)
+                .filter(log -> log.getTimestamp() < to)
+                .sorted(Comparator.comparing(studentLog -> studentLog.getTimestamp()))
                 .collect(Collectors.toList());
-
         return logsInTimeframe;
     }
 
