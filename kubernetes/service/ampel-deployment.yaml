@@ -18,6 +18,11 @@ spec:
         - name: ampel-service
           image: registry.projectdw.de/ampel-service
           imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "0.50"
+            limits:
+              memory: "1Gi"
       restartPolicy: Always
       imagePullSecrets:
         - name: regcred
