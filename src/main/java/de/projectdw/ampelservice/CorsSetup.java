@@ -13,7 +13,7 @@ public class CorsSetup {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/graphql").allowedOrigins("http://localhost:3000", "http://localhost:4200","https://ampel-tracker.projectdw.de/");
+                registry.addMapping("/graphql").allowedOrigins("http://localhost:3000", "http://localhost:4200","https://ampel-tracker.projectdw.de");
             }
         };
     }
