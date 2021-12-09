@@ -20,11 +20,10 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @EqualsAndHashCode
-
 public class StudentLog {
     @Id
     private String id;
-    @Indexed
+    @Indexed()
     long timestamp;
     boolean success;
     @DBRef(lazy = true)
