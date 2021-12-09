@@ -32,6 +32,7 @@ public class LogDataFetcher {
         if (from == null || from.equals("")) {
             from = "10";
         }
+
         if (to == null || to.equals("")) {
             to = new Date().getTime() + "";
         }
