@@ -18,8 +18,8 @@ spec:
         - name: postgresql-db
           image: postgres:latest
           volumeMounts:
-            - name: postgresql-db-disk
-              mountPath: /data
+            - mountPath: /data
+              name: postgredb
           env:
             - name: POSTGRES_PASSWORD
               value: password
