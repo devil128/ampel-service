@@ -14,6 +14,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @DgsComponent
+/**
+ * component to fetch user information
+ */
 public class UserDatafetcher {
     @Autowired
     UserRepository userRepository;
@@ -22,6 +25,9 @@ public class UserDatafetcher {
 
 
     @DgsQuery(field = "users")
+    /**
+     * fetches user and applies an optional filter
+     */
     public DataFetcherResult<List<Student>> getUsers(@InputArgument String filter, @InputArgument String from, @InputArgument String to) {
         var users = userRepository.findAll();
         if (filter != null) {
@@ -36,12 +42,18 @@ public class UserDatafetcher {
     }
 
     @DgsQuery(field = "user")
+    /**
+     * fetches user data for a specific user
+     */
     public DataFetcherResult<Student> getStudentData(@InputArgument String username, @InputArgument String place, @InputArgument String from, @InputArgument String to) {
         Student student = userRepository.findFirstByUsernameAndPlace(username, place);
         var data = generateData(student, from, to);
         return DataFetcherResult.<Student>newResult().data(data).localContext(Arrays.asList(from, to)).build();
     }
 
+    /**
+     * propagates the fields
+     */
     private Student generateData(Student user, String from, String to) {
         if (from == null)
             from = Instant.ofEpochSecond(10).toEpochMilli() + "";
@@ -108,6 +120,9 @@ public class UserDatafetcher {
     }
 
     @DgsSubscription(field = "users")
+    /**
+     * websocket stream to stream users every 5 seconds
+     */
     public Publisher<DataFetcherResult<List<Student>>> streamUsers(@InputArgument String filter,
                                                                    @InputArgument String from,
                                                                    @InputArgument String to,
@@ -122,6 +137,9 @@ public class UserDatafetcher {
     }
 
     @DgsData(parentType = "Student", field = "logs")
+    /**
+     * fetches logs when requested and fetches the specific logs
+     */
     public List<StudentLog> logs(DgsDataFetchingEnvironment dgsDataFetchingEnvironment) {
         Student student = dgsDataFetchingEnvironment.getSource();
         List<String> timestamps = dgsDataFetchingEnvironment.getLocalContext();

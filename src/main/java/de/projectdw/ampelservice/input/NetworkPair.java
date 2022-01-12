@@ -5,6 +5,9 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
+/**
+ * Input Type for NetworkPair
+ */
 public class NetworkPair {
     String network;
     boolean online;

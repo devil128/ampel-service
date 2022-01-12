@@ -20,6 +20,10 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @EqualsAndHashCode
+/**
+ * StudentLog Entity saves every connection attempt of a student and whether it was a success or a failure.
+ * In addition a reference for the student is given.
+ */
 public class StudentLog {
     @Id
     private String id;

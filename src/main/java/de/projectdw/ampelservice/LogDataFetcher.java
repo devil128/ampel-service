@@ -18,12 +18,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @DgsComponent
+/**
+ * Data fetcher for logs
+ */
 public class LogDataFetcher {
     @Autowired
     UserRepository userRepository;
     @Autowired
     UserLogsRepository userLogsRepository;
 
+    /**
+     * fetches logs for a specific user in a timeframe and enables pagination
+     */
     @DgsQuery(field = "logs")
     public DataFetcherResult<List<StudentLog>> getLogs(@InputArgument String username, @InputArgument String place, @InputArgument String from, @InputArgument String to, @InputArgument Integer page, @InputArgument Integer pageSize) throws Exception {
         Student student = userRepository.findFirstByUsernameAndPlace(username, place);

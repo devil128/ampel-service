@@ -13,6 +13,9 @@ import java.util.List;
 
 @RestController
 @Slf4j
+/**
+ * Rest Controller welches ermöglicht LogDaten hochzuladen und automatisch zu den Log Daten nutzer erstellt.
+ */
 public class PingService {
     @Autowired
     UserLogsRepository userLogsRepository;
@@ -21,8 +24,12 @@ public class PingService {
     @Autowired
     StudentNetworkRepository studentNetworkRepository;
 
+
     @PostMapping("/ping")
-    public String getPing(@RequestBody InputLogData data) {
+    /**
+     * Upload Endpoint für einzelne Logdaten
+     */
+    public String postPing(@RequestBody InputLogData data) {
         log.info("Name: {} and place connected: {}", data.getName(), data.getPlace());
         var name = data.getName();
         var place = data.getPlace();
@@ -46,18 +53,19 @@ public class PingService {
         return "failed";
     }
 
+    /**
+     * Endpoint zum clearen von Repository Daten
+     *
+     * @return
+     */
     @GetMapping("/clear")
     public String clear() {
-        userLogsRepository.deleteAll(userLogsRepository.findAll());
-        userRepository.deleteAll(userRepository.findAll());
+        /**
+         userLogsRepository.deleteAll(userLogsRepository.findAll());
+         userRepository.deleteAll(userRepository.findAll());
+         **/
         return "Worked";
 
-    }
-
-
-    @GetMapping("/getFailed")
-    public List<StudentLog> getFailed() {
-        return userLogsRepository.findAll();
     }
 
     private Student getUser(String user, String place) {
@@ -73,6 +81,12 @@ public class PingService {
         return res;
     }
 
+    /**
+     * uploads logs which had no internet connection
+     *
+     * @param inputLogData
+     * @return success or failure
+     */
     @PostMapping("/uploadLogs")
     private boolean uploadData(@RequestBody List<InputLogData> inputLogData) {
         // only not successful requests are repeated after finish
@@ -94,7 +108,6 @@ public class PingService {
             userLogsRepository.save(studentLog);
 
         }
-
         return true;
     }
 

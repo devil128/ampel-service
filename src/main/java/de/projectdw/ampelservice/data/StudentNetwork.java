@@ -11,6 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document("student-networks")
+/**
+ * Object which contains all networks of the student active at the time of a StudentLog.
+ */
 public class StudentNetwork {
     @Id
     private String id;

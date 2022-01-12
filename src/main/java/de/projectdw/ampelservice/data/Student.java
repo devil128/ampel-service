@@ -16,6 +16,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "students")
+/**
+ * Student object which contains student information and aggregated fields. Transient fields are calculated based on request and not saved.
+ *
+ */
 public class Student {
     @Id
     private String id;
@@ -33,6 +37,7 @@ public class Student {
     int logCount;
     @Transient
     List<StudentLog> logs;
+    @Transient
     List<String> activeNetworks;
 
 }
