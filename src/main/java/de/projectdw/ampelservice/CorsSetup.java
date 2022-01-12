@@ -7,6 +7,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Component
+/**
+ * allows endpoint URLs to access this service
+ */
 public class CorsSetup {
     @Bean
     public WebMvcConfigurer corsConfigurer() {
