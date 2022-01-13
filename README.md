@@ -11,6 +11,15 @@ Ein interaktives Interface ist erreichbar unter der Adresse https://ampel.projec
 Das Docker Image wird erstellt durch ``mvn jib:build``. Dieser erstellt ein Docker Image und pusht es zu den Informationen
 hinterlegt in der pom.xml. Für den Fall, dass keine Verbindung zu der Datenbank hergestellt werden kann, schlägt der Build fehl.
 Um dennoch das Docker Image zu updaten kann ``mvn jib:build -DskipTests`` ausgeführt werden.
+### Basic Setup Project:
+- Installiere Kubectl (Windows: https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/, https://kubernetes.io/de/docs/tasks/tools/install-kubectl/)
+- Intelji Installiere Kubernetes Support
+- Intelji CloudCode (https://plugins.jetbrains.com/plugin/10485-kubernetes, https://plugins.jetbrains.com/plugin/8079-cloud-code)
+- Importiere Kubectl / Kopiere diese in ~/.kube/config
+### Händisches Deployment 
+``kubectl apply -f file`` ermöglicht das deployen eines Services in der Kubernetes. Alternativ kann es gestartet und debuggt werden mithilfe von CloudCode.
+Hierfür muss eine neue Run Configuration in Intelji erstellt werden und dabei die gewünschte Skaffold File ausgewählt werden.
+
 ### Kubernetes
 
 
@@ -31,6 +40,8 @@ angepasst werden.
 ### Skaffold / Cloud Code
 Die Skaffold File ermöglicht es mit dem Plugin Cloud Code live Deployments auf dem Kubernetes Cluster zu erstellen.
 Ebenso wird das Debuggen des Codes dadurch ermöglicht. So kann der Code in der Ausführungsumgebung getestet werden.
+
+
 ### Datenbank
 Als Datenbank wird aktuell MongoDB genutzt die Instanz wird aufgesetzt (in Kubernetes) durch die in dem Ordner kubernetes
 hinterlegten Files. Ansonsten kann auch jederzeit eine Docker Instanz erstellt werden. Um andere Einstellungen nutzbar zu machen
