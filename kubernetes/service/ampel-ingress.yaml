@@ -12,7 +12,7 @@ spec:
   tls:
     - hosts:
         - ampel.projectdw.de
-      secretName: https-ampel-service
+      secretName: https-ampel-service-ui
   rules:
     - host: ampel.projectdw.de
       http:
